@@ -18,7 +18,7 @@
     "next",
     "redis"
   ],
-  "version": "2.3.0",
+  "version": "3.0.0-alpha.0",
   "type": "module",
   "license": "MIT",
   "description": "Next.js cache handlers",
@@ -117,8 +117,8 @@
     "typescript-eslint": "^8.46.4"
   },
   "peerDependencies": {
-    "@redis/client": ">= 5.5.6",
-    "next": ">=15.2.4"
+    "@redis/client": ">= 5.8.3",
+    "next": ">=16.0.0-beta.0"
   },
   "distTags": [
     "next15"
