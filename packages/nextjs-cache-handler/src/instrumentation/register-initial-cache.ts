@@ -1,6 +1,4 @@
-import { promises as fsPromises } from "node:fs";
-import path from "node:path";
-import os from "node:os";
+import type { OutgoingHttpHeaders } from "http";
 import { PRERENDER_MANIFEST, SERVER_DIRECTORY } from "next/constants";
 import type { PrerenderManifest } from "next/dist/build";
 import { CACHE_ONE_YEAR } from "next/dist/lib/constants";
@@ -10,10 +8,12 @@ import {
   IncrementalCachedAppPageValue,
   IncrementalCachedPageValue,
 } from "next/dist/server/response-cache";
-import type { OutgoingHttpHeaders } from "http";
-import { getTagsFromHeaders } from "../helpers/getTagsFromHeaders";
-import { Revalidate } from "../handlers/cache-handler.types";
+import { promises as fsPromises } from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import pLimit from "p-limit";
+import { Revalidate } from "../handlers/cache-handler.types";
+import { getTagsFromHeaders } from "../helpers/getTagsFromHeaders";
 
 type CacheHandlerType = typeof import("../handlers/cache-handler").CacheHandler;
 
