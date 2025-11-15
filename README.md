@@ -557,6 +557,22 @@ export default async function handler(request, response) {
 
 ---
 
+## Contributing
+
+This project uses [Turborepo](https://turbo.build/repo) to manage the monorepo structure with the main package and examples.
+
+### Prerequisites
+
+- Node.js >= 22.0.0
+- pnpm >= 9.0.0
+
+### Development Workflow
+
+- **Start dev server**: `pnpm dev` (runs all dev servers in parallel)
+- **Run all tests**: `pnpm test`
+
+---
+
 ## License
 
 Licensed under the [MIT License](./LICENSE), consistent with the original `@neshca/cache-handler`.
