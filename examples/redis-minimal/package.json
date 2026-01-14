@@ -15,9 +15,9 @@
   "dependencies": {
     "@fortedigital/nextjs-cache-handler": "workspace:*",
     "next": "^15.5.6",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "redis": "^5.9.0"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "redis": "^5.10.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
