@@ -663,7 +663,10 @@ export class CacheHandler implements NextCacheHandler {
             "prepare",
             `Error: ${result.reason}`,
           );
-        } else if (result.status === "fulfilled" && result.value !== undefined) {
+        } else if (
+          result.status === "fulfilled" &&
+          result.value !== undefined
+        ) {
           console.info(
             "[CacheHandler] [handler: %s] [method: %s] %s",
             handlersList[index]?.name ?? `unknown-${index}`,

@@ -3,12 +3,12 @@ import { resolve } from "node:path";
 
 function getPackageVersion(): string | undefined {
   try {
-    const packageJsonPath = resolve(__dirname, '..', '..', 'package.json')
-    const content = readFileSync(packageJsonPath, 'utf-8')
-    const packageJson = JSON.parse(content) as { version: string }
-    return packageJson.version
+    const packageJsonPath = resolve(__dirname, "..", "..", "package.json");
+    const content = readFileSync(packageJsonPath, "utf-8");
+    const packageJson = JSON.parse(content) as { version: string };
+    return packageJson.version;
   } catch {
-    return undefined
+    return undefined;
   }
 }
 
@@ -40,4 +40,3 @@ export function getClientInfoTag(): string {
   }
   return "nextjs-cache-handler";
 }
-

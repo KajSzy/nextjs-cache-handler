@@ -21,4 +21,3 @@ describe("getClientInfoTag", () => {
     expect(result1).toBe(result2);
   });
 });
-
