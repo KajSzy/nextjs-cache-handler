@@ -2,7 +2,6 @@ import { promises as fsPromises } from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { PRERENDER_MANIFEST, SERVER_DIRECTORY } from "next/constants.js";
-import { CACHE_ONE_YEAR } from "next/dist/lib/constants.js";
 import type { PrerenderManifest } from "next/dist/build";
 import {
   CachedFetchValue,
@@ -14,6 +13,8 @@ import type { OutgoingHttpHeaders } from "http";
 import { getTagsFromHeaders } from "../helpers/getTagsFromHeaders";
 import { Revalidate } from "../handlers/cache-handler.types";
 import pLimit from "p-limit";
+
+const CACHE_ONE_YEAR = 31536000;
 
 type CacheHandlerType = typeof import("../handlers/cache-handler").CacheHandler;
 

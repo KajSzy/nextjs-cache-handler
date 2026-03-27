@@ -4,8 +4,9 @@ import { Revalidate } from "../handlers/cache-handler.types";
 import { workAsyncStorage } from "next/dist/server/app-render/work-async-storage.external.js";
 import type { IncrementalCache } from "next/dist/server/lib/incremental-cache";
 import { CacheHandler } from "../handlers/cache-handler";
-import { CACHE_ONE_YEAR } from "next/dist/lib/constants";
 import { CachedRouteKind } from "next/dist/server/response-cache";
+
+const CACHE_ONE_YEAR = 31536000;
 
 declare global {
   var __incrementalCache: IncrementalCache | undefined;

@@ -245,7 +245,56 @@ const redisHandler = await createRedisHandler({
 });
 ```
 
-#### Redis Cluster (Experimental)
+#### Custom value serializer
+
+By default, the handler stores each entry as a JSON string (`JSON.stringify` / `JSON.parse`), matching earlier releases. You can plug in your own wire format to shrink payloads (compression), add encryption, or use another encoding-this package does not ship extra codecs so your dependencies stay minimal.
+
+**Contract**
+
+- `serialize(value)` receives the full cache object Next.js passes in (metadata such as `tags`, `lastModified`, `lifespan`, plus the nested `value` payload). It must return a string suitable for Redis `SET`.
+- `deserialize(stored)` receives that string from Redis `GET`. Return a parsed object compatible with the handler, or `null` to treat the key as a miss (stale entries are removed).
+
+The handler normalizes `Buffer` fields inside the payload to strings before `serialize`, and restores buffers after `deserialize`, so a plain `JSON.stringify` / `JSON.parse` round trip remains valid.
+
+**Default export for reuse**
+
+You can import the built-in serializer if you want to wrap or compare behavior:
+
+```js
+import createRedisHandler, {
+  jsonCacheValueSerializer,
+} from "@fortedigital/nextjs-cache-handler/redis-strings";
+```
+
+**Example: gzip + base64**
+
+Useful when cache entries are large text (RSC payloads, HTML). Uses Node’s built-in `zlib`; `gzipSync` / `gunzipSync` run on the server during cache reads and writes-profile if your traffic is very hot.
+
+```js
+import { gzipSync, gunzipSync } from "node:zlib";
+import createRedisHandler from "@fortedigital/nextjs-cache-handler/redis-strings";
+
+const redisCacheHandler = createRedisHandler({
+  client: redisClient,
+  keyPrefix: "nextjs:",
+  valueSerializer: {
+    serialize: (value) => gzipSync(JSON.stringify(value)).toString("base64"),
+    deserialize: (stored) => {
+      const parsed = JSON.parse(
+        gunzipSync(Buffer.from(stored, "base64")).toString("utf-8"),
+      );
+      return parsed;
+    },
+  },
+});
+```
+
+**Operational notes**
+
+- Changing `valueSerializer` (or toggling compression) makes existing Redis keys unreadable until you flush those keys or run a migration; plan a key prefix bump or cache clear on deploy.
+- Tag maps and TTL sidecar hashes are still stored as JSON by the handler; only the main entry value uses your serializer.
+
+#### Redis Cluster
 
 ```js
 import { createCluster } from "@redis/client";
@@ -275,8 +324,6 @@ const redisCacheHandler = createRedisHandler({
   keyPrefix: CACHE_PREFIX,
 });
 ```
-
-**Note:** Redis Cluster support is currently experimental and may have limitations or unexpected bugs. Use it with caution.
 
 ### Using ioredis
 
