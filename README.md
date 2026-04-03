@@ -266,13 +266,13 @@ import createRedisHandler, {
 } from "@fortedigital/nextjs-cache-handler/redis-strings";
 ```
 
-**Example: gzip + base64**
+**Example: gzip**
 
 Useful when cache entries are large text (RSC payloads, HTML). Uses Node’s built-in `zlib`; `gzipSync` / `gunzipSync` run on the server during cache reads and writes-profile if your traffic is very hot.
 
 ```js
-import { gzipSync, gunzipSync } from "node:zlib";
 import createRedisHandler from "@fortedigital/nextjs-cache-handler/redis-strings";
+import { gzipSync, gunzipSync } from "zlib";
 
 const redisCacheHandler = createRedisHandler({
   client: redisClient,
@@ -284,6 +284,38 @@ const redisCacheHandler = createRedisHandler({
         gunzipSync(Buffer.from(stored, "base64")).toString("utf-8"),
       );
       return parsed;
+    },
+  },
+});
+```
+
+**Example: brotli**
+
+Useful when cache entries are large text (RSC payloads, HTML). Uses Node’s built-in `zlib`; `brotliCompress` / `brotliDecompress` run on the server during cache reads and writes-profile if your traffic is very hot.
+
+```js
+import createRedisHandler from "@fortedigital/nextjs-cache-handler/redis-strings";
+import { brotliCompress, brotliDecompress } from "zlib";
+import { promisify } from "util";
+
+const brotliCompressAsync = promisify(brotliCompress);
+const brotliDecompressAsync = promisify(brotliDecompress);
+
+const redisCacheHandler = createRedisHandler({
+  client: redisClient,
+  keyPrefix: "nextjs:",
+  valueSerializer: {
+    async serialize(value) {
+      const compressed = await brotliCompressAsync(
+        Buffer.from(JSON.stringify(value), "utf8"),
+      );
+      return compressed.toString("base64");
+    },
+    async deserialize(stored) {
+      const decompressed = await brotliDecompressAsync(
+        Buffer.from(stored, "base64"),
+      );
+      return JSON.parse(decompressed.toString("utf8"));
     },
   },
 });
