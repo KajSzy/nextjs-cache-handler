@@ -21,7 +21,6 @@ export default defineConfig({
     env: {
       REDIS_URL: process.env.REDIS_URL ?? "redis://127.0.0.1:6379",
       REDIS_TYPE: "redis",
-      NEXT_PRIVATE_DEBUG_CACHE: "1",
     },
   },
 });

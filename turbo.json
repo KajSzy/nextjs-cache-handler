@@ -19,14 +19,7 @@
     },
     "test:e2e": {
       "dependsOn": ["^build", "build"],
-      "cache": false,
-      "env": [
-        "REDIS_URL",
-        "REDIS_TYPE",
-        "BASE_URL",
-        "NEXT_PRIVATE_DEBUG_CACHE",
-        "CI"
-      ]
+      "cache": false
     }
   }
 }
