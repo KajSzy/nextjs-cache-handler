@@ -121,7 +121,10 @@ export default async function NoStoreExample() {
                 <span className="font-medium text-gray-700 dark:text-gray-300">
                   Rendered at:
                 </span>{" "}
-                <span className="text-gray-900 dark:text-gray-100 font-mono text-sm">
+                <span
+                  data-testid="build-timestamp"
+                  className="text-gray-900 dark:text-gray-100 font-mono text-sm"
+                >
                   {timestamp}
                 </span>
                 <span className="ml-2 text-sm text-orange-600 dark:text-orange-400">
