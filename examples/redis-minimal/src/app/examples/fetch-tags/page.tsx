@@ -11,7 +11,7 @@ export default async function FetchTagsExample() {
 
   try {
     const characterResponse = await fetch(
-      "https://api.sampleapis.com/futurama/characters/1",
+      "https://api.sampleapis.com/futurama/characters/5",
       {
         next: {
           revalidate: 86400,
@@ -154,7 +154,7 @@ export default async function FetchTagsExample() {
           </h2>
           <CodeBlock>
             {`const response = await fetch(
-  "https://api.sampleapis.com/futurama/characters/1",
+  "https://api.sampleapis.com/futurama/characters/5",
   {
     next: {
       revalidate: 86400,

@@ -4,6 +4,8 @@ import { CodeBlock } from "@/components/CodeBlock";
 import { RevalidatePathButton } from "@/components/RevalidatePathButton";
 import { FuturamaCharacter } from "@/types/futurama";
 
+export const dynamic = "force-dynamic";
+
 export default async function NoStoreExample() {
   let name: string;
   let character: FuturamaCharacter;
